@@ -1,8 +1,9 @@
 import os
+import secrets
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 import aiofiles
-import ast
+from datetime import datetime
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -32,8 +33,23 @@ class DashboardConsumer(AsyncWebsocketConsumer):
             # Check if data is a list
             if isinstance(data, list):
                 action, element_id = data[0], data[1]
+                print(action)
                 if action.strip() == "delete":
                     await self.deleteBudgetData(element_id)
+                elif action.strip() == "add":
+                    entry_id = self.generate_id()
+                    form_data = {
+                        "id":entry_id,
+                        "designation": data[1],
+                        "department": data[2],
+                        "budget": data[3],
+                        "location": data[4],
+                        "lastUpdated": [
+                            "Admin",
+                            self.get_current_datetime()
+                        ]
+                    }
+                    await self.addBudgetData(form_data)
                 elif action.strip() == "login":
                     self.logged_in_users[element_id] = {'status': 'online'}
                     await self.send_login_update()
@@ -67,6 +83,13 @@ class DashboardConsumer(AsyncWebsocketConsumer):
             "status": "Data processed"
         }))
 
+    def generate_id(self, length=15):
+        return secrets.token_hex(length // 2)
+    
+    def get_current_datetime(self):
+        """Returns the current date and time in the required format"""
+        return datetime.now().strftime("%b %d, %Y %I:%M %p")  # Example: 'Jun 4, 2022 11:33 am'
+
     async def send_login_update(self):
         await self.channel_layer.group_send(
             "dashboard",
@@ -95,6 +118,36 @@ class DashboardConsumer(AsyncWebsocketConsumer):
         await self.send(text_data=json.dumps({
             'message': message
         }))
+
+    async def addBudgetData(self, form_data):
+        try:
+            print(f"Attempting to add entry: {form_data}")
+            
+            async with aiofiles.open(DATA_FILE, mode='r') as file:
+                data = json.loads(await file.read())
+
+            if not isinstance(data, list):
+                data = []
+
+            data.insert(0, form_data)
+
+            async with aiofiles.open(DATA_FILE, mode='w') as file:
+                await file.write(json.dumps(data, indent=4))
+
+            print(f"Entry added successfully: {form_data}")
+
+            await self.send(text_data=json.dumps({
+                "status": "Data added successfully",
+                "entry": form_data
+            }))
+            return
+
+        except Exception as e:
+            print(f"Error while adding entry: {str(e)}")
+            await self.send(text_data=json.dumps({
+                "error": f"Failed to add data: {str(e)}"
+            }))
+            return
 
 
     async def deleteBudgetData(self, entry_id):
