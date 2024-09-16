@@ -20,12 +20,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-55ojrs&do5wxeqqaq1f_&b8_#ztjk#c_^1sx30=_b7c@ai5_=n"
+SECRET_KEY = "55ojrs&do5wxeqqaq1f_&b8_#ztjk#c_^1sx30=_b7c@ai5_=n"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.vercel.app', '.now.sh']
 
 
 # Application definition
@@ -155,10 +155,10 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ORIGIN_ALLOW_ALL = True
 
-CORS_ALLOWED_ORIGINS = [
-    "http://127.0.0.1:4200",
-    "http://localhost:4200",
-]
+# CORS_ALLOWED_ORIGINS = [
+#     "http://127.0.0.1:4200",
+#     "http://localhost:4200",
+# ]
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -168,3 +168,8 @@ REST_FRAMEWORK = {
 }
 
 # LOGIN_REDIRECT_URL = '/'
+
+CSRF_COOKIE_SECURE = True
+
+STATICFILES_DIRS = [BASE_DIR/'static',]
+STATIC_ROOT = BASE_DIR/'staticfiles'

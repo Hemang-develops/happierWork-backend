@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import api_login
+from .views import login_view  # Import the function-based view
 
 urlpatterns = [
-    path('api/login/', api_login, name='api_login'),
+    path('api/login/', login_view, name='login'),  # Use the function directly
 ]
