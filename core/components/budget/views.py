@@ -4,10 +4,8 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
 
-# Get the current directory of the views.py file
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# Path to the data.json file
 DATA_FILE = os.path.join(BASE_DIR, 'data.json')
 
 @require_http_methods(['GET'])
@@ -50,7 +48,7 @@ def update_data(request, entry_id):
 
 @csrf_exempt
 @require_http_methods(['DELETE'])
-def delete_data(request, entry_id):
+def delete_data(entry_id):
     with open(DATA_FILE, 'r+') as file:
         data = json.load(file)
         data = [entry for entry in data if entry['id'] != entry_id]  # Remove the entry
@@ -59,4 +57,4 @@ def delete_data(request, entry_id):
         file.truncate()  # Clear the file before writing
         json.dump(data, file, indent=4)
     
-    return JsonResponse({'message': 'Data deleted successfully'}, status=204)
+    return JsonResponse({'message': 'Data deleted successfully'})

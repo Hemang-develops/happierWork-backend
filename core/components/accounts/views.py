@@ -19,6 +19,7 @@ def login_view(request):
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
+            print(data)
             email = data.get('email')
             password = data.get('password')  # Validate password if needed
 
@@ -26,15 +27,19 @@ def login_view(request):
                 return JsonResponse({'error': 'Email is required'}, status=400)
 
             email_parts = email.split('@')[0].split('.')
-            if len(email_parts) != 2:
-                return JsonResponse({'error': 'Invalid email format'}, status=400)
+            if len(email_parts) == 2:
+                first_name, last_name = email_parts
 
-            first_name, last_name = email_parts
-
-            user_data = {
-                'first_name': first_name,
-                'last_name': last_name
-            }
+                user_data = {
+                    'first_name': first_name,
+                    'last_name': last_name
+                }
+            else:
+                first_name = email_parts
+                user_data = {
+                    'first_name': first_name,
+                    'last_name': ''
+                }
 
             if os.path.exists(ACCOUNTS_FILE):
                 with open(ACCOUNTS_FILE, 'r') as file:
