@@ -1,6 +1,4 @@
-# HappierWork Backend
-
-## Happier - Backend
+# Happierwork - Backend
 
 This project implements a Django-based backend for a real-time dashboard application. It allows multiple users (e.g., CEO, CFO) to view and update a list of positions and respective salary budgets. Updates are synchronized across users in real-time using WebSockets.
 
