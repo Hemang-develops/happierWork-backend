@@ -111,7 +111,16 @@ class DashboardConsumer(AsyncWebsocketConsumer):
         }))
     
     async def broadcast_message(self, event):
-      if event.get('message'):
+        if event.get('entry'):
+            status = event['status']
+            entry = event['entry']
+
+            # Send the data to the WebSocket
+            await self.send(text_data=json.dumps({
+                'status': status,
+                'entry': entry
+            }))
+        elif event.get('message'):
             message = event['message']
             await self.send(text_data=json.dumps(message))
         await self.send(text_data=json.dumps({
@@ -143,11 +152,14 @@ class DashboardConsumer(AsyncWebsocketConsumer):
                 await file.write(json.dumps(data, indent=4))
 
             print(f"Entry added successfully: {form_data}")
-
-            await self.send(text_data=json.dumps({
-                "status": "Data added successfully",
-                "entry": form_data
-            }))
+            await self.channel_layer.group_send(
+                    'dashboard',
+                    {
+                        'type': 'broadcast_message',
+                        'status': 'Data added successfully',
+                        'entry': form_data
+                    }
+                )
             return
 
         except Exception as e:
@@ -176,6 +188,13 @@ class DashboardConsumer(AsyncWebsocketConsumer):
                 await self.send(text_data=json.dumps({
                     "status": "Data deleted successfully"
                 }))
+                await self.channel_layer.group_send(
+                    'dashboard',
+                    {
+                        'type': 'delete_notification',
+                        'deleted_id': entry_id
+                    }
+                )
                 return
             
         except Exception as e:
@@ -185,3 +204,14 @@ class DashboardConsumer(AsyncWebsocketConsumer):
                 "error": f"Failed to delete data: {str(e)}"
             }))
             return
+        
+            # This method will handle the broadcasted deletion event
+    async def delete_notification(self, event):
+        deleted_id = event['deleted_id']
+
+        # Send the deleted ID to the WebSocket
+        await self.send(text_data=json.dumps({
+            'status': 'Data deleted successfully',
+            'deleted_id': deleted_id
+        }))
+            
