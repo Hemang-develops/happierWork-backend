@@ -39,16 +39,16 @@ class DashboardConsumer(AsyncWebsocketConsumer):
                 elif action.strip() == "add":
                     entry_id = self.generate_id()
                     form_data = {
-                        "id":entry_id,
-                        "designation": data[1],
-                        "department": data[2],
-                        "budget": data[3],
-                        "location": data[4],
-                        "lastUpdated": [
-                            "Admin",
-                            self.get_current_datetime()
-                        ]
+                        "id":entry_id,"designation": data[1],"department": data[2],"budget": data[3],"location": data[4],
+                        "lastUpdated": ["Admin",self.get_current_datetime()]
                     }
+                    await self.channel_layer.group_send(
+                        "positions_group",
+                        {
+                            "type": "broadcast_message",
+                            "message": form_data
+                        }
+                    )
                     await self.addBudgetData(form_data)
                 elif action.strip() == "login":
                     self.logged_in_users[element_id] = {'status': 'online'}
@@ -104,8 +104,11 @@ class DashboardConsumer(AsyncWebsocketConsumer):
             'type': 'login_update',
             'logged_in_users': event['logged_in_users']
         }))
-
+    
     async def broadcast_message(self, event):
+        if event['message']:
+            message = event['message']
+            await self.send(text_data=json.dumps(message))
         await self.send(text_data=json.dumps({
             'status': event['status'],
             'elementID': event.get('elementID'),
