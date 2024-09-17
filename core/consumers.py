@@ -33,6 +33,7 @@ class DashboardConsumer(AsyncWebsocketConsumer):
             # Check if data is a list
             if isinstance(data, list):
                 action, element_id = data[0], data[1]
+                print(data)
                 print(action)
                 if action.strip() == "delete":
                     await self.deleteBudgetData(element_id)
@@ -62,12 +63,16 @@ class DashboardConsumer(AsyncWebsocketConsumer):
                         }
                     )
                 elif action.strip() == "tracking":
+                    if len(data) > 2:
+                        elementInfo = element_id + ' ' + data[2]
+                    else:
+                        elementInfo = element_id
                     await self.channel_layer.group_send(
                         "dashboard",
                         {
                             'type': 'broadcast_message',
                             'status': 'tracking successfully',
-                            'elementID': element_id
+                            'elementID': elementInfo
                         }
                     )
             else:
@@ -106,7 +111,7 @@ class DashboardConsumer(AsyncWebsocketConsumer):
         }))
     
     async def broadcast_message(self, event):
-        if event['message']:
+      if event.get('message'):
             message = event['message']
             await self.send(text_data=json.dumps(message))
         await self.send(text_data=json.dumps({
