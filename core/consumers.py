@@ -111,7 +111,7 @@ class DashboardConsumer(AsyncWebsocketConsumer):
         }))
     
     async def broadcast_message(self, event):
-        if event.get('message'):
+      if event.get('message'):
             message = event['message']
             await self.send(text_data=json.dumps(message))
         await self.send(text_data=json.dumps({
