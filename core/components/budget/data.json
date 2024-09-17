@@ -1,71 +1,5 @@
 [
     {
-        "id": "6e43578d-956c-4f43-abb1-4c5aad0f9d52",
-        "designation": "Programmer Analyst",
-        "department": "Other",
-        "budget": 20,
-        "location": "Ahmedabad",
-        "lastUpdated": [
-            "Amit Gupta",
-            "Jun 4, 2022 11:33 am"
-        ]
-    },
-    {
-        "id": "eef43345-1b4c-4e06-b3eb-52b764bc1565",
-        "designation": "Backend Developer",
-        "department": "Engineering",
-        "budget": 10,
-        "location": "Ahmedabad",
-        "lastUpdated": [
-            "Kiran Kumar",
-            "Feb 7, 2022 11:42 pm"
-        ]
-    },
-    {
-        "id": "740f45ef-583b-4530-87e9-cb2bcf649d6e",
-        "designation": "Business Analyst",
-        "department": "Product",
-        "budget": 30,
-        "location": "Ahmedabad",
-        "lastUpdated": [
-            "Meet Mehta",
-            "Feb 26, 2024 08:40 pm"
-        ]
-    },
-    {
-        "id": "4e37e89b-e15f-4e12-8127-02dce89b857e",
-        "designation": "QA Specialist",
-        "department": "Sales",
-        "budget": 15,
-        "location": "Ahmedabad",
-        "lastUpdated": [
-            "Kiran Kumar",
-            "May 12, 2023 03:55 am"
-        ]
-    },
-    {
-        "id": "cd556ab4-00a3-4afa-8770-2af054855f4f",
-        "designation": "Cloud Architect",
-        "department": "Sales",
-        "budget": 8,
-        "location": "Ahmedabad",
-        "lastUpdated": [
-            "Ravi Patel",
-            "Jun 8, 2022 09:55 pm"
-        ]
-    },
-    {
-        "id": "28cbd377-34d6-4b1d-ba28-b98de9d16884",
-        "designation": "Marketing Lead",
-        "department": "Product",
-        "budget": 10,
-        "location": "Ahmedabad",
-        "lastUpdated": [
-            "Ankush Menta",
-            "Aug 31, 2024 05:15 am"
-        ]
-    },
-    {
         "id": "f2369968-d6f7-4e4e-ba1a-7a59e6511bee",
         "designation": "UI Designer",
         "department": "Engineering",
@@ -129,17 +63,6 @@
         "lastUpdated": [
             "Kiran Kumar",
             "Jul 9, 2024 09:57 pm"
-        ]
-    },
-    {
-        "id": "5465ec17-ece4-4e88-861a-2f71145950d2",
-        "designation": "Software Engineer",
-        "department": "Product",
-        "budget": 20,
-        "location": "Ahmedabad",
-        "lastUpdated": [
-            "Ravi Patel",
-            "Nov 4, 2021 10:08 pm"
         ]
     },
     {
