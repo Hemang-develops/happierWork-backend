@@ -2,6 +2,8 @@
 
 This project implements a Django-based backend for a real-time dashboard application. It allows multiple users (e.g., CEO, CFO) to view and update a list of positions and respective salary budgets. Updates are synchronized across users in real-time using WebSockets.
 
+This is deployed on Railway.app
+
 ## Features
 
 - **Real-time synchronization**: Multiple users can add, delete, or modify data, and changes will appear instantly for all connected users.
@@ -71,6 +73,7 @@ Before you begin, ensure you have the following installed:
 ## WebSocket Endpoints
 
 - **WebSocket URL**: `ws://localhost:8001/ws/dashboard/`
+- **Live WebSocket URL**: `ws://happierwork-backend-production.up.railway.app/`
 
 ### Actions:
 
